@@ -2,7 +2,7 @@
 
 import argparse
 import subprocess
-import re
+import sys
 import logging
 import json
 import yaml
@@ -210,6 +210,7 @@ def main():
             except Exception as e:
                 print(f"Error writing report to file: {e}")
                 logging.error(f"Error writing report to file: {e}")
+                sys.exit(1)
         else:
             print(report)
             logging.info("Report printed to console.")
@@ -217,9 +218,14 @@ def main():
     except ValueError as e:
         print(f"Error: {e}")
         logging.error(str(e))
+        sys.exit(1)
     except Exception as e:
+        # A failed collection (the firewall command erroring, usually for
+        # lack of privilege) is not an empty report. Exiting 0 here made
+        # scheduled runs look successful while nothing was analyzed.
         print(f"An unexpected error occurred: {e}")
         logging.exception("An unexpected error occurred.")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
