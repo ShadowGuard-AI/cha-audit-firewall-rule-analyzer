@@ -101,12 +101,21 @@ class FirewallRuleAnalyzer:
         findings = []
 
         if firewall_type == "iptables":
-            # Example: Check for overly permissive rules (e.g., allowing all traffic to a specific port)
+            # The substring pair says nothing about the source: a rule
+            # accepting one port from one named address flags exactly
+            # like an accept from everywhere. Permissive here means any
+            # accepted TCP port rule at all, which is a much wider net
+            # than the finding's wording suggests.
             for rule in rules:
                 if "-A INPUT -p tcp --dport" in rule and "-j ACCEPT" in rule:
                     findings.append(f"Potential overly permissive rule: {rule}")
         elif firewall_type == "firewalld":
-            # Example: Check for services that are exposed to all interfaces
+            # This test works line by line, and in --list-all output the
+            # interfaces and services entries are separate lines. The
+            # services line therefore never contains the word
+            # interfaces, so every services line in the output flags,
+            # bound interfaces or not. The check as shaped cannot pass
+            # a firewalld host that exposes any service at all.
             for rule in rules:
                 if "services:" in rule and "interfaces:" not in rule:
                     findings.append(f"Potential overly exposed service: {rule}")
@@ -147,7 +156,13 @@ class FirewallRuleAnalyzer:
 
             try:
                 jsonpath_obj = parse(jsonpath_expr)
-                results = jsonpath_obj.find(self.config) # Assuming you're auditing the configuration itself.  Adapt if auditing a different data source.
+                # There is no separate target data anywhere in this
+                # tool: the checks and the values they check live in
+                # the same loaded file, so this audit grades a document
+                # against itself. A caller expecting it to inspect some
+                # other system's configuration will get findings about
+                # the check file and nothing else.
+                results = jsonpath_obj.find(self.config)
 
                 if not results:
                     findings.append(f"Configuration check failed: {description} (No matching nodes)")
