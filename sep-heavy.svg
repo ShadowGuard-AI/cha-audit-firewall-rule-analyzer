@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" role="img" aria-label="A major divider: stitch perforations appearing dot by dot across the full page width, each dot a small punched circle in the cream ground">
+<g fill="#c9bfa4">
+<circle cx="30" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" repeatCount="indefinite"/></circle>
+<circle cx="90" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="0.3s" repeatCount="indefinite"/></circle>
+<circle cx="150" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="0.6s" repeatCount="indefinite"/></circle>
+<circle cx="210" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="0.9s" repeatCount="indefinite"/></circle>
+<circle cx="270" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="1.2s" repeatCount="indefinite"/></circle>
+<circle cx="330" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="1.5s" repeatCount="indefinite"/></circle>
+<circle cx="390" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="1.8s" repeatCount="indefinite"/></circle>
+<circle cx="450" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="2.1s" repeatCount="indefinite"/></circle>
+<circle cx="510" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="2.4s" repeatCount="indefinite"/></circle>
+<circle cx="570" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="2.7s" repeatCount="indefinite"/></circle>
+<circle cx="630" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="3s" repeatCount="indefinite"/></circle>
+<circle cx="690" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="3.3s" repeatCount="indefinite"/></circle>
+<circle cx="750" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="3.6s" repeatCount="indefinite"/></circle>
+<circle cx="810" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="3.9s" repeatCount="indefinite"/></circle>
+<circle cx="870" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="4.2s" repeatCount="indefinite"/></circle>
+<circle cx="930" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="4.5s" repeatCount="indefinite"/></circle>
+<circle cx="990" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="4.8s" repeatCount="indefinite"/></circle>
+<circle cx="1050" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="5.1s" repeatCount="indefinite"/></circle>
+<circle cx="1110" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="5.4s" repeatCount="indefinite"/></circle>
+<circle cx="1170" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="5.7s" repeatCount="indefinite"/></circle>
+</g>
+</svg>

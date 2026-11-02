@@ -3,162 +3,105 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cha Audit Firewall Rule Analyzer: what it is, how it runs, where it stops</title>
-<meta name="description" content="Cha Audit Firewall Rule Analyzer is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.">
+<title>cha-audit-firewall-rule-analyzer: Sumi Ink and the One Breath Line</title>
+<meta name="description" content="Analyzes firewall rules from iptables, firewalld, or Windows Firewall to identify overly permissive or redundant rules.">
 <style>
-:root {
-  --bg: #1e2014; --panel: #2c2e1e; --ink: #eeecdc;
-  --mut: #3b3e28;
-  --acc: #ceb25c; --acc2: #b2603e;
-  --line: #2c2e1e;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: 'Palatino Linotype', Palatino, serif; line-height: 1.55; }
-code, pre, .mono { font-family: 'Menlo', monospace; }
-a { color: var(--acc2); }
-.hero { padding: 3rem 6vw 1rem; }
-.hero img.banner { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; }
-.logo { width: 92px; height: 92px; border-radius: 18px;
-  border: 1px solid var(--line); }
-h1 { font-size: 2.4rem; margin: 0.4em 0 0.1em; }
-h2 { border-bottom: 2px solid var(--acc); padding-bottom: 0.2em;
-  margin-top: 2em; }
-.lede { font-size: 1.15rem; max-width: 62ch; }
-main { padding: 0 6vw 3rem; max-width: 1180px; margin: 0 auto; }
-.grid { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 1rem 1.2rem; }
-.card.pop { animation: rise 0.7s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; } }
-pre.code { background: #101014; color: #e8e6df; padding: 1rem 1.2rem;
-  border-radius: 12px; overflow-x: auto; font-size: 0.86rem;
-  border-left: 5px solid var(--acc); }
-table { border-collapse: collapse; width: 100%; }
-td, th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
-  text-align: left; }
-.shots { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.shots img { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; background: #f4f1e8; }
-footer { padding: 2rem 6vw; border-top: 1px solid var(--line);
-  color: var(--mut); }
-.rail { display: flex; gap: 1.2rem; align-items: flex-start; }
-.rail nav { position: sticky; top: 1rem; min-width: 180px; }
-@media (max-width: 760px) { .rail { flex-direction: column; }
-  .rail nav { position: static; } }
-@media (prefers-reduced-motion: reduce) {
-  .card.pop { animation: none; } * { scroll-behavior: auto; } }
+@font-face{font-family:'Bitcount Prop Single';src:url('fonts/BitcountPropSingle.ttf') format('truetype');}
+@font-face{font-family:'Alegreya Sans';src:url('fonts/AlegreyaSans.ttf') format('truetype');}
+:root{--cream:#f3ebd7;--cream2:#faf5e8;--ultra:#262a8c;--ochre:#c08a2e;--ink:#1c1a17;--turp:#efe6c8}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:'Alegreya Sans',sans-serif;line-height:1.65}
+h1,h2,h3{font-family:'Bitcount Prop Single',monospace;color:var(--ultra);font-weight:400}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;background:var(--cream)}
+.hero img.heroimg{width:100%;height:58vh;object-fit:cover;display:block}
+.hero .in{padding:1rem 6vw 2.2rem;max-width:1120px;margin:0 auto;width:100%}
+.hero h1{font-size:1.9rem;margin:.4rem 0}
+.logo{width:210px}
+main{padding:0 6vw 3rem;max-width:1120px;margin:0 auto;position:relative}
+main::before{content:'';position:absolute;left:2.6vw;top:0;bottom:0;width:3px;background:var(--ochre)}
+nav{display:flex;gap:.9rem;flex-wrap:wrap;margin:1.2rem 0}
+.canvas{display:inline-block;text-decoration:none;color:var(--ultra);font-family:'Bitcount Prop Single',monospace;font-size:.95rem;padding:.6rem 1.3rem;background:var(--cream2);border:5px solid #a8894f;box-shadow:inset 0 0 0 2px #d9cba6;position:relative;overflow:hidden}
+.canvas:hover{background:radial-gradient(ellipse at 50% 50%,rgba(38,42,140,.28),var(--cream2) 72%)}
+.canvas:active::after{content:'';position:absolute;left:6%;right:6%;top:44%;height:6px;background:var(--ochre);border-radius:3px}
+.canvas:focus-visible{outline:3px double var(--turp);outline-offset:5px}
+.sheet{background:var(--cream2);box-shadow:1px 2px 5px rgba(28,26,23,.16);padding:.4rem 1.8rem 1.5rem;margin:1.8rem 0;position:relative}
+.sheet::after{content:'';position:absolute;top:10px;right:12px;width:26px;height:20px;background:#68645e;clip-path:polygon(12% 0,88% 0,100% 100%,0 100%)}
+.sheet h2{font-size:1.55rem;border-bottom:1px solid #c9bfa4;padding-bottom:.35rem}
+pre{background:#efe8d2;color:var(--ink);padding:1rem;overflow-x:auto;font-size:1rem;border-left:4px solid var(--ochre)}
+.cmd{font-size:1.25rem;text-align:center;font-weight:700}
+a{color:#7a5510}
+a::before{content:'';display:inline-block;width:16px;height:9px;margin-right:.45em;background:linear-gradient(180deg,#c9ccd2,#9a9ea8);clip-path:polygon(0 30%,70% 0,100% 50%,70% 100%,0 70%);vertical-align:1px}
+a:hover::before{background:linear-gradient(180deg,#e8b95c,var(--ochre))}
+.canvas::before{content:none}
+.needle{height:8px;margin:2.2rem 0;background:repeating-linear-gradient(90deg,#8a6f4d 0 14px,transparent 14px 30px)}
+table{border-collapse:collapse;width:100%}
+td,th{padding:.5rem .7rem;border-bottom:1px solid #ddd3b8;text-align:left;vertical-align:top}
+td b{font-family:'Bitcount Prop Single',monospace;color:var(--ultra);font-weight:400}
+tr.required td:first-child{border-left:6px solid var(--ultra)}
+.tray{background:#26231f;color:var(--cream);padding:.2rem 1.4rem 1.1rem;margin:1.3rem 0;position:relative}
+.tray::before{content:'';position:absolute;left:50%;top:12px;width:120px;height:16px;margin-left:-60px;background:#171512;border-radius:50%}
+.tray h3{color:var(--cream);font-size:1.3rem}
+footer{padding:1rem 6vw 2.4rem;max-width:1120px;margin:0 auto}
 </style>
 </head>
-<body class="layout-poster">
-<!-- This page exists for cha-audit-firewall-rule-analyzer alone: the layout (poster),
-     the colors, and the type were picked for this project, not
-     shared with the other project pages. The code block below is
-     copied from the file it names, line for line. If it looks
-     plain, that is because the project is plain, and I would
-     rather the page match the project than dress it up. The one
-     thing I will not do here is oversell: what this project does
-     not do is stated on the page, not hidden from it. -->
+<body>
 <header class="hero">
-  <img class="logo" src="assets/logo.png" alt="Cha Audit Firewall Rule Analyzer logo">
-  <img class="banner" src="assets/banner.png" alt="">
-  <h1>Cha Audit Firewall Rule Analyzer</h1>
-  <p class="mono"><a href="https://github.com/ShadowGuard-AI/cha-audit-firewall-rule-analyzer">github.com/ShadowGuard-AI/cha-audit-firewall-rule-analyzer</a></p>
+<img class="heroimg" src="assets/intro-banner.png" alt="A long practice sheet covered in single breath strokes, a cleared centre with a brush resting across an ink stone, no lettering anywhere">
+<div class="in">
+<img class="logo" src="assets/logo.png" alt="A sumi brush held above paper, one bead of ink gathered at its point, one finished stroke beneath it">
+<h1>cha-audit-firewall-rule-analyzer</h1>
+<p>A single long practice sheet unrolled downward. Each firewall rule is read on its own, the way each line on the sheet is judged against the row above it.</p>
+<nav>
+<a class="canvas" href="#firewalls">Analyse the Rules</a>
+<a class="canvas" href="#verified">Run Without a Config File</a>
+<a class="canvas" href="#params">Write the Report to a File</a>
+<a class="canvas" href="#params">Show Help</a>
+</nav>
+</div>
 </header>
-
 <main>
-  <section class="rail">
-    <nav aria-label="on this page">
-      <p class="mono"><a href="#run">Run it</a><br>
-      <a href="#files">The files</a><br>
-      <a href="#sheets">The sheets</a><br>
-      <a href="https://github.com/ShadowGuard-AI/cha-audit-firewall-rule-analyzer">The repo</a></p>
-    </nav>
-    <div>
-      <p class="lede">Cha Audit Firewall Rule Analyzer is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.</p>
-      <div class="grid">
-        <div class="card pop"><h3>What it is</h3>
-          <p>Cha Audit Firewall Rule Analyzer: 3 files, 262 counted
-          lines across Python 241, Markdown 17, Text 4. One job, done in the
-          open, in files you can read.</p></div>
-        <div class="card pop"><h3>The biggest piece</h3>
-          <p><code>main.py</code> carries the most
-          lines. If the project grows, that file is where the growth
-          lands first, for better or worse.</p></div>
-        <div class="card pop"><h3>The honest gap</h3>
-          <p>No test files yet. That is the honest gap, and the roadmap in the visuals folder says what the first one should cover.</p></div>
-      </div>
-      <section id="run">
-        <h2>Run it</h2>
-        <p>The repo README has the exact commands for this one. The
-        shape is the shape for most of my projects: clone it, read the
-        top file first so you know what will happen, then run it on
-        something you do not mind breaking.</p>
-        <p class="mono">$ git clone https://github.com/ShadowGuard-AI/cha-audit-firewall-rule-analyzer.git<br>$ cd cha-audit-firewall-rule-analyzer</p>
-      </section>
-      
-  <section aria-label="real code">
-    <h2>The code, as it sits in the repo</h2>
-    <p>From <code>main.py</code>, line 13 on. I did
-    not tidy it for the page. What you see is what the file has.</p>
-    <pre class="code"><code>logging.basicConfig(level=logging.INFO, format=&#x27;%(asctime)s - %(levelname)s - %(message)s&#x27;)
-
-class FirewallRuleAnalyzer:
-    &quot;&quot;&quot;
-    Analyzes firewall rules to identify overly permissive or redundant rules.
-    Supports iptables, firewalld, and Windows Firewall.  Also supports
-    auditing system and application configurations against established
-    security baselines (e.g., CIS benchmarks).
-    &quot;&quot;&quot;
-
-    def __init__(self, config_file=None):
-        &quot;&quot;&quot;
-        Initializes the FirewallRuleAnalyzer.
-        :param config_file: Path to the configuration file (YAML or JSON).  Optional.
-        &quot;&quot;&quot;
-        self.config = {}
-        if config_file:
-            try:
-                self.load_config(config_file)
-            except Exception as e:
-                logging.error(f&quot;Error loading configuration file: {e}&quot;)
-                raise</code></pre>
-  </section>
-      <section id="files">
-        <h2>The files that matter</h2>
-        <table><tr><th>File</th><th>Lines</th></tr>
-        <tr><td><code>main.py</code></td><td>241</td></tr>
-        <tr><td><code>README.md</code></td><td>17</td></tr>
-        <tr><td><code>requirements.txt</code></td><td>4</td></tr>
-        </table>
-        <p>Names doing the work: <span class="mono">FirewallRuleAnalyzer, setup_argparse, main, __init__, load_config, get_firewall_rules, analyze_rules, audit_configuration</span>.</p>
-      </section>
-      <section id="sheets">
-        <h2>Drawn by hand</h2>
-        <p>I sketch my projects on notebook paper so I have to
-        understand them well enough to draw them. The full set,
-        with the counts and how they were counted, is the
-        <a href="https://github.com/ShadowGuard-AI/cha-audit-firewall-rule-analyzer/tree/main/cha-audit-firewall-rule-analyzer-Visuals">cha-audit-firewall-rule-analyzer-Visuals</a>
-        folder in the repo. Nothing is drawn over the binder holes.
-        That is a rule, not a style.</p>
-        <div class="shots">
-          <img src="assets/architecture.png" alt="Hand drawn architecture sheet for Cha Audit Firewall Rule Analyzer">
-          <img src="assets/flowchart.png" alt="Hand drawn flowchart sheet for Cha Audit Firewall Rule Analyzer">
-          <img src="assets/product-map.png" alt="Hand drawn product map sheet for Cha Audit Firewall Rule Analyzer">
-        </div>
-      </section>
-    </div>
-  </section>
+<section class="sheet" id="firewalls"><h2>Three Firewalls</h2>
+<p>cha-audit-firewall-rule-analyzer analyses firewall rules from iptables, firewalld, or Windows Firewall to identify overly permissive or redundant rules, and it can audit a YAML or JSON configuration against a baseline.</p>
+<p>iptables: rules are read from the Linux packet filtering framework of that name.</p>
+<p>firewalld: rules are read from the dynamic firewall manager of that name.</p>
+<p>Windows Firewall: rules are read from the Windows platform firewall of that name.</p>
+<p>Two kinds of finding are named. A permissive rule is, by the word itself, a rule that allows more than it needs to. A redundant rule is, by the word itself, a rule that repeats what another rule already does. The source offers no examples of either, and no rule sample is printed on this sheet, since the source provides none.</p>
+</section>
+<div class="needle"></div>
+<section class="sheet"><h2>Setting Out the Tools</h2>
+<pre>git clone https://github.com/ShadowGuard-AI/cha-audit-firewall-rule-analyzer
+cd cha-audit-firewall-rule-analyzer
+pip install -r requirements.txt</pre>
+<p>Three plain steps, in the order the source gives them, with no Python version, no virtual environment step, and no other preparation the document does not mention.</p>
+<p><a href="https://github.com/ShadowGuard-AI/cha-audit-firewall-rule-analyzer">The repository on GitHub</a></p>
+</section>
+<div class="needle"></div>
+<section class="sheet"><h2>One Command Line</h2>
+<pre class="cmd">python3 main.py -t TYPE [-c CONFIG] [-o OUTPUT]</pre>
+<p>The type choice is required. The config path is optional and bracketed. The output path is optional and bracketed. The bracketing in the original line is preserved and read as optionality, not redesigned.</p>
+<div class="tray"><h3>Type Is Required</h3>
+<p>The one part of the command line that cannot be left out is the type: -t, also written --type, chooses which firewall is analysed, and the run has no default to fall back on.</p></div>
+</section>
+<div class="needle"></div>
+<section class="sheet" id="params"><h2>Four Parameters</h2>
+<table>
+<tr><td><b>-h</b></td><td>Shows a help message and exits.</td></tr>
+<tr class="required"><td><b>-t, --type</b></td><td>Gives the type of firewall to analyse, required, with the three accepted values iptables, firewalld, and windows. This entry alone carries the ultramarine stroke at its left.</td></tr>
+<tr><td><b>-c, --config</b></td><td>Gives the path to a configuration file in YAML or JSON.</td></tr>
+<tr><td><b>-o, --output</b></td><td>Gives the path to the output file for the report.</td></tr>
+</table>
+</section>
+<div class="needle"></div>
+<section class="sheet" id="verified"><h2>What Was Actually Run</h2>
+<p>Without -c, the tool runs the live firewall command for the chosen type: iptables-save for iptables, firewall-cmd --list-all for firewalld, and netsh advfirewall show allprofiles for Windows.</p>
+<div class="tray"><h3>Live Run Not Performed in This Wave</h3>
+<p>That live step was not run in this wave because those commands are not available in the documenting environment. A live run was not possible there because the jsonpath_ng package is not installed and installs were not permitted in that wave. The parameter list comes from the argument parser in main.py, and the file compiles cleanly. These cautions are kept at full size, since a reader deciding whether to trust the parameter list deserves to know where it came from.</p></div>
+</section>
+<div class="needle"></div>
+<section class="sheet"><h2>MIT License</h2>
+<p>Licence closes the sheet roll as the source states it:</p>
+<pre>MIT License, see LICENSE.</pre>
+</section>
 </main>
-<footer>
-  <p>Cha Audit Firewall Rule Analyzer is one of my projects. This page was written
-  from the repo itself on 2026-10-30: the counts are the
-  repo's counts, the code is the repo's code, and the gaps are the
-  repo's gaps.</p>
-</footer>
+<footer><p>Theme: Sumi Ink and the One Breath Line. Type: Bitcount Prop Single for headings, Alegreya Sans for reading, both SIL Open Font License 1.1. The lettering reference MADE Soulmaze Brush was reference only and is not embedded.</p></footer>
 </body>
 </html>

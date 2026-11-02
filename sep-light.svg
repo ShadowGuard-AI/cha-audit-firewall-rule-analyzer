@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" role="img" aria-label="A minor divider: a centred cluster of stitch perforation dots">
+<g fill="#c9bfa4">
+<circle cx="540" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" repeatCount="indefinite"/></circle>
+<circle cx="585" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="0.3s" repeatCount="indefinite"/></circle>
+<circle cx="630" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="0.6s" repeatCount="indefinite"/></circle>
+<circle cx="675" cy="12" r="5"><animate attributeName="fill" values="#c9bfa4;#8a7f63;#c9bfa4" dur="4.8s" begin="0.9s" repeatCount="indefinite"/></circle>
+</g>
+</svg>
